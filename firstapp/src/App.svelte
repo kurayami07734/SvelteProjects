@@ -1,4 +1,5 @@
 <script>
+  import MeetUpGrid from "./meetup/meetUpGrid.svelte";
   import Header from "./ui/header.svelte";
   const meetups = [
     {
@@ -25,3 +26,13 @@
 </script>
 
 <Header />
+
+<main>
+  <MeetUpGrid {meetups} />
+</main>
+
+<style>
+  main {
+    margin-top: 5rem;
+  }
+</style>
