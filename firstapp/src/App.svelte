@@ -1,7 +1,19 @@
 <script>
+// @ts-nocheck
+
+  
   import MeetUpGrid from "./meetup/meetUpGrid.svelte";
   import Header from "./ui/header.svelte";
-  const meetups = [
+  import TextInput from "./ui/textInput.svelte";
+  import Button from "./ui/button.svelte";
+
+  let title = "";
+  let subtitle = "";
+  let imageURL = "";
+  let address = "";
+  let description = "";
+  let email = "";
+  let meetups = [
     {
       id: "m1",
       title: "Coding Bootcamp",
@@ -23,16 +35,79 @@
       address: "Swimming pool, Wayne Manor, 20539 Gotham",
     },
   ];
+  function addMeetup() {
+    const newMeet = {
+      id: Math.random().toString(),
+      title: title,
+      subtitle: subtitle,
+      description: description,
+      imageURL: imageURL,
+      contactEmail: email,
+      address: address,
+    };
+    meetups = [newMeet, ...meetups];
+  }
 </script>
 
 <Header />
 
 <main>
+  <form on:submit|preventDefault={addMeetup}>
+    <TextInput
+      id="title"
+      labelText="Title"
+      inputType="text"
+      value={title}
+      on:input={(e) => (title = e.target.value)}
+    />
+    <TextInput
+      id="subtitle"
+      labelText="Subtitle"
+      inputType="text"
+      value={subtitle}
+      on:input={(e) => (subtitle = e.target.value)}
+    />
+    <TextInput
+      id="imageURL"
+      labelText="Image URL"
+      inputType="text"
+      value={imageURL}
+      on:input={(e) => (imageURL = e.target.value)}
+    />
+    <TextInput
+      id="address"
+      labelText="Address"
+      inputType="text"
+      value={address}
+      on:input={(e) => (address = e.target.value)}
+    />
+    <TextInput
+      id="email"
+      labelText="Contact Email"
+      inputType="email"
+      value={email}
+      on:input={(e) => (email = e.target.value)}
+    />
+    <TextInput
+      inputType="textarea"
+      rows="3"
+      id="description"
+      labelText="Description"
+      value={description}
+      on:input={(e) => (description = e.target.value)}
+    />
+    <Button type="submit" caption="Save"/>
+  </form>
   <MeetUpGrid {meetups} />
 </main>
 
 <style>
   main {
     margin-top: 5rem;
+  }
+  form {
+    width: 30rem;
+    max-width: 90%;
+    margin: auto;
   }
 </style>
