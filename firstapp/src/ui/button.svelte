@@ -2,6 +2,7 @@
     export let type;
     export let caption;
     export let href = "";
+    export let mode = "";
 </script>
 
 {#if href !== ""}
