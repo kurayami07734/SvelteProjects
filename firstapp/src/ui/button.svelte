@@ -3,12 +3,13 @@
     export let caption;
     export let href = "";
     export let mode = "";
+    export let color = "";
 </script>
 
-{#if href !== ""}
-    <button {type}>{caption}</button>
+{#if href}
+    <a {href}>{caption}</a>
 {:else}
-    <button {href} {type}>{caption}</button>
+    <button class="{mode} {color}"{type} on:click>{caption}</button>
 {/if}
 
 <style>

@@ -1,7 +1,5 @@
 <script>
-// @ts-nocheck
-
-  
+  // @ts-nocheck
   import MeetUpGrid from "./meetup/meetUpGrid.svelte";
   import Header from "./ui/header.svelte";
   import TextInput from "./ui/textInput.svelte";
@@ -23,6 +21,7 @@
         "https://images.unsplash.com/photo-1528901166007-3784c7dd3653?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60",
       contactEmail: "contact@test.com",
       address: "Wayne Manor, 20539 Gotham",
+      isFavorite: false,
     },
     {
       id: "m2",
@@ -33,6 +32,7 @@
         "https://images.unsplash.com/photo-1560090995-01632a28895b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c3dpbW1pbmd8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
       contactEmail: "contact@test.com",
       address: "Swimming pool, Wayne Manor, 20539 Gotham",
+      isFavorite: false,
     },
   ];
   function addMeetup() {
@@ -44,8 +44,20 @@
       imageURL: imageURL,
       contactEmail: email,
       address: address,
+      isFavorite: false,
     };
     meetups = [newMeet, ...meetups];
+  }
+  function toggleFavorite(event) {
+    const id = event.detail;
+    let updatedMeetup = { ...meetups.find((m) => m.id === id) };
+    updatedMeetup.isFavorite = !updatedMeetup.isFavorite;
+    const idx = meetups.findIndex((m) => m.id === id);
+    console.log(updatedMeetup);
+    let updatedMeetups = [...meetups];
+    updatedMeetups[idx] = updatedMeetup;
+    console.log(updatedMeetups);
+    meetups = updatedMeetups;
   }
 </script>
 
@@ -96,9 +108,9 @@
       value={description}
       on:input={(e) => (description = e.target.value)}
     />
-    <Button type="submit" caption="Save"/>
+    <Button type="submit" caption="Save" />
   </form>
-  <MeetUpGrid {meetups} />
+  <MeetUpGrid {meetups} on:toggle-favorite={toggleFavorite} />
 </main>
 
 <style>

@@ -5,16 +5,21 @@
     export let imageURL;
     export let description;
     export let contactEmail;
+    export let isFavorite;
+    export let id;
     import Button from "../ui/button.svelte";
+    import Badge from "../ui/badge.svelte";
+    import { createEventDispatcher } from "svelte";
+    const dispatch = createEventDispatcher();
 </script>
 
 <article>
     <header>
         <h1>
             {title}
-            <!-- {#if isFav}
-          <Badge>FAVORITE</Badge>
-        {/if} -->
+            {#if isFavorite}
+                <Badge>FAVORITE</Badge>
+            {/if}
         </h1>
         <h2>{subtitle}</h2>
         <p>{address}</p>
@@ -31,8 +36,14 @@
             type="button"
             caption="Contact Email"
         />
+        <Button
+            type="button"
+            mode="outline"
+            color={isFavorite ? "" : "success"}
+            caption={isFavorite ? "Unfavorite" : "Favorite"}
+            on:click={() => dispatch("toggle-favorite", id)}
+        />
         <Button type="button" caption="Show Details" />
-        <Button type="button" caption="Favourite" />
     </footer>
 </article>
 
@@ -62,12 +73,12 @@
         margin: 0.5rem 0;
         font-family: "Roboto Slab", sans-serif;
     }
-    h1.is-favorite {
+    /* h1.is-favorite {
         background: #01a129;
         color: white;
-        padding: 0 0.5rem;
+        padding: 0 1rem;
         border-radius: 5px;
-    }
+    } */
     h2 {
         font-size: 1rem;
         color: #808080;

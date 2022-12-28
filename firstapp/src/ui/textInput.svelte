@@ -28,6 +28,7 @@
         background: white;
         padding: 0.15rem 0.25rem;
         transition: border-color 0.1s ease-out;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
     }
     input:focus,
     textarea:focus {
