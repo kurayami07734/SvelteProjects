@@ -31,19 +31,19 @@
         <p>{description}</p>
     </div>
     <footer>
+        <Button href="mailto:{contactEmail}">Contact Email</Button>
         <Button
-            href="mailto:{contactEmail}"
-            type="button"
-            caption="Contact Email"
-        />
-        <Button
-            type="button"
             mode="outline"
             color={isFavorite ? "" : "success"}
-            caption={isFavorite ? "Unfavorite" : "Favorite"}
             on:click={() => dispatch("toggle-favorite", id)}
-        />
-        <Button type="button" caption="Show Details" />
+        >
+            {#if isFavorite}
+                Unfavorite
+            {:else}
+                Favorite
+            {/if}
+        </Button>
+        <Button>Show Details</Button>
     </footer>
 </article>
 
