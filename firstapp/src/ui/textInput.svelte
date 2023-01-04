@@ -6,17 +6,32 @@
     export let value;
     export let valid = true;
     export let validityMessage = "";
+    let touched = false;
 </script>
 
 <div class="form-control">
     <label for={id}>{labelText}</label>
     {#if inputType === "textarea"}
-        <textarea class:invalid={!valid} {rows} {id} {value} on:input />
+        <textarea
+            class:invalid={!valid && touched}
+            {rows}
+            {id}
+            bind:value
+            on:input
+            on:blur={() => (touched = true)}
+        />
         <!-- event is forwarded to the parent to handle -->
     {:else}
-        <input class:invalid={!valid} type={inputType} {id} {value} on:input />
+        <input
+            class:invalid={!valid && touched}
+            type={inputType}
+            {id}
+            {value}
+            on:input
+            on:blur={() => (touched = true)}
+        />
     {/if}
-    {#if validityMessage !== "" && !valid}
+    {#if validityMessage !== "" && !valid && touched}
         <p class="error-message">{validityMessage}</p>
     {/if}
 </div>

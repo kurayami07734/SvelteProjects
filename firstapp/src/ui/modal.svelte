@@ -10,9 +10,7 @@
     <h1>{title}</h1>
     <div class="content"><slot /></div>
     <footer>
-        <slot name="footer">
-            <Button on:click={() => dispatch("cancel")}>Close</Button>
-        </slot>
+        <slot name="footer" />
     </footer>
 </div>
 
