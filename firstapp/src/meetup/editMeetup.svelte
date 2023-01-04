@@ -3,74 +3,85 @@
     import TextInput from "../ui/textInput.svelte";
     import Button from "../ui/button.svelte";
     import { createEventDispatcher } from "svelte";
+    import { isEmpty } from "../shared/validation.js";
     import Modal from "../ui/modal.svelte";
     const dispatch = createEventDispatcher();
-    let title = "";
-    let subtitle = "";
-    let imageURL = "";
-    let address = "";
-    let description = "";
-    let email = "";
+    let meetup = {
+        title: '',
+        subtitle: '',
+        imageURL: '',
+        address: '',
+        description: '',
+        email: '',
+    };
+    let valid = {
+        title: true,
+        subtitle: true,
+        imageURL: true,
+        address: true,
+        description: true,
+        email: true,
+    };
     function submitForm() {
-        let obj = {
-            title: title,
-            subtitle: subtitle,
-            imageURL: imageURL,
-            address: address,
-            description: description,
-            email: email,
-        };
-        dispatch("add-meetup", obj);
+        dispatch("add-meetup", meetup);
     }
 </script>
 
 <Modal title="New Meetup" on:cancel>
-    <form on:submit|preventDefault={submitForm}>
+    <form>
         <TextInput
             id="title"
             labelText="Title"
             inputType="text"
-            value={title}
-            on:input={(e) => (title = e.target.value)}
+            value={meetup.title}
+            valid={valid.title}
+            validityMessage="Title cannot be empty"
+            on:input={(e) => (meetup.title = e.target.value)}
         />
         <TextInput
             id="subtitle"
             labelText="Subtitle"
             inputType="text"
-            value={subtitle}
-            on:input={(e) => (subtitle = e.target.value)}
+            value={meetup.subtitle}
+            valid={valid.subtitle}
+            on:input={(e) => (meetup.subtitle = e.target.value)}
         />
         <TextInput
             id="imageURL"
             labelText="Image URL"
             inputType="text"
-            value={imageURL}
-            on:input={(e) => (imageURL = e.target.value)}
+            value={meetup.imageURL}
+            valid={valid.imageURL}
+            on:input={(e) => (meetup.imageURL = e.target.value)}
         />
         <TextInput
             id="address"
             labelText="Address"
             inputType="text"
-            value={address}
-            on:input={(e) => (address = e.target.value)}
+            value={meetup.address}
+            valid={valid.address}
+            on:input={(e) => (meetup.address = e.target.value)}
         />
         <TextInput
             id="email"
             labelText="Contact Email"
             inputType="email"
-            value={email}
-            on:input={(e) => (email = e.target.value)}
+            value={meetup.email}
+            valid={valid.email}
+            on:input={(e) => (meetup.email = e.target.value)}
         />
         <TextInput
             inputType="textarea"
             rows="3"
             id="description"
             labelText="Description"
-            value={description}
-            on:input={(e) => (description = e.target.value)}
+            value={meetup.description}
+            valid={valid.description}
+            on:input={(e) => (meetup.description = e.target.value)}
         />
-    <!-- <Button type="submit" slot="footer">Save</Button> -->
+        <!-- <Button type="submit" slot="footer">Save</Button> -->
     </form>
+    <Button slot="footer" on:click={submitForm}>Save</Button>
 </Modal>
 
 <style>

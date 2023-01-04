@@ -20,28 +20,28 @@
     showEditMeetup = !showEditMeetup;
   }
   let meetups = [
-    {
-      id: "m1",
-      title: "Coding Bootcamp",
-      subtitle: "Learn to code in few hours",
-      description: "Experts will be teaching basic python for all",
-      imageURL:
-        "https://images.unsplash.com/photo-1528901166007-3784c7dd3653?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60",
-      contactEmail: "contact@test.com",
-      address: "Wayne Manor, 20539 Gotham",
-      isFavorite: false,
-    },
-    {
-      id: "m2",
-      title: "Swim along",
-      subtitle: "For all swimmers",
-      description: "Throughout the day",
-      imageURL:
-        "https://images.unsplash.com/photo-1560090995-01632a28895b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c3dpbW1pbmd8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
-      contactEmail: "contact@test.com",
-      address: "Swimming pool, Wayne Manor, 20539 Gotham",
-      isFavorite: false,
-    },
+    // {
+    //   id: "m1",
+    //   title: "Coding Bootcamp",
+    //   subtitle: "Learn to code in few hours",
+    //   description: "Experts will be teaching basic python for all",
+    //   imageURL:
+    //     "https://images.unsplash.com/photo-1528901166007-3784c7dd3653?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60",
+    //   contactEmail: "contact@test.com",
+    //   address: "Wayne Manor, 20539 Gotham",
+    //   isFavorite: false,
+    // },
+    // {
+    //   id: "m2",
+    //   title: "Swim along",
+    //   subtitle: "For all swimmers",
+    //   description: "Throughout the day",
+    //   imageURL:
+    //     "https://images.unsplash.com/photo-1560090995-01632a28895b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c3dpbW1pbmd8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
+    //   contactEmail: "contact@test.com",
+    //   address: "Swimming pool, Wayne Manor, 20539 Gotham",
+    //   isFavorite: false,
+    // },
   ];
 
   function toggleFavorite(event) {
@@ -64,17 +64,17 @@
 <Header />
 
 <main>
-  {#if showEditMeetup || meetups.length === 0}
-    <div class="meetup-control">
-      <Button on:click={toggleEditMeetup}>Cancel</Button>
-    </div>
+  {#if showEditMeetup}
     <EditMeetup on:add-meetup={addMeetup} on:cancel={toggleEditMeetup} />
   {:else}
     <div class="meetup-control">
       <Button on:click={toggleEditMeetup}>New meetup</Button>
     </div>
-    <MeetUpGrid {meetups} on:toggle-favorite={toggleFavorite} />
   {/if}
+  {#if meetups.length === 0}
+    <h1 class="empty">No meetups added yet</h1>
+  {/if}
+  <MeetUpGrid {meetups} on:toggle-favorite={toggleFavorite} />
 </main>
 
 <style>
@@ -83,5 +83,10 @@
   }
   .meetup-control {
     margin: 1rem;
+  }
+  .empty {
+    place-items: center;
+    display: grid;
+    height: 4rem;
   }
 </style>

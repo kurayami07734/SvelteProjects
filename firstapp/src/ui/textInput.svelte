@@ -4,15 +4,20 @@
     export let labelText;
     export let rows = 3;
     export let value;
+    export let valid = true;
+    export let validityMessage = "";
 </script>
 
 <div class="form-control">
     <label for={id}>{labelText}</label>
     {#if inputType === "textarea"}
-        <textarea {rows} {id} {value} on:input />
+        <textarea class:invalid={!valid} {rows} {id} {value} on:input />
         <!-- event is forwarded to the parent to handle -->
     {:else}
-        <input type={inputType} {id} {value} on:input />
+        <input class:invalid={!valid} type={inputType} {id} {value} on:input />
+    {/if}
+    {#if validityMessage !== "" && !valid}
+        <p class="error-message">{validityMessage}</p>
     {/if}
 </div>
 
