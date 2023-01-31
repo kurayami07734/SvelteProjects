@@ -2,14 +2,14 @@
   import Button from "../ui/button.svelte";
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
-  import { meetups } from "./meetups-store";
+  import { meetups } from "./meetups.store";
   export let id;
-  let meetup = $meetups.find((mtp) => mtp.id === id);
+  let meetup = meetups.find(id);
 </script>
 
 <section>
   <div class="image">
-    <img src={meetup.imageUrl} alt={meetup.title} />
+    <img src={meetup.imageURL} alt={meetup.title} />
   </div>
   <div class="content">
     <h1>{meetup.title}</h1>

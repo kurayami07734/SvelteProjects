@@ -7,7 +7,11 @@
 
 <section id="meetups">
   {#each meetups as meetup}
-    <MeetupItem {...meetup} on:show-details={(e) => dispatch("show-details", e.detail) } />
+    <MeetupItem
+      id={meetup.id}
+      on:show-details={(e) => dispatch("show-details", e.detail)}
+      on:edit-meetup={(e) => dispatch("edit-meetup", e.detail)}
+    />
   {/each}
 </section>
 

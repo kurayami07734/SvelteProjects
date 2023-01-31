@@ -5,21 +5,26 @@
   import Details from "./meetup/details.svelte";
   import Button from "./ui/button.svelte";
   import Header from "./ui/header.svelte";
-  import { meetups } from "./meetup/meetups-store";
-
-  let showEditMeetup = false;
-  function toggleEditMeetup() {
-    showEditMeetup = !showEditMeetup;
-  }
+  import { meetups } from "./meetup/meetups.store";
   let page = "overview";
-  let pageData = {};
+  let id = null;
+  let showEditMeetup = false;
+  function toggleEditMeetup(event) {
+    if (showEditMeetup === false) {
+      id = event.detail;
+      showEditMeetup = true;
+    } else {
+      id = null;
+      showEditMeetup = false;
+    }
+  }
   function showDetails(event) {
     page = "details";
-    pageData.id = event.detail;
+    id = event.detail;
   }
   function closeDetails() {
     page = "overview";
-    pageData = {};
+    id = null;
   }
 </script>
 
@@ -28,7 +33,7 @@
 <main>
   {#if page === "overview"}
     {#if showEditMeetup}
-      <EditMeetup on:hide-modal={toggleEditMeetup} />
+      <EditMeetup on:hide-modal={toggleEditMeetup} {id} />
     {:else}
       <div class="meetup-control">
         <Button on:click={toggleEditMeetup}>New meetup</Button>
@@ -37,9 +42,13 @@
     {#if meetups.length === 0}
       <h1 class="empty">No meetups added yet</h1>
     {/if}
-    <MeetUpGrid meetups={$meetups} on:show-details={showDetails} />
+    <MeetUpGrid
+      meetups={$meetups}
+      on:show-details={showDetails}
+      on:edit-meetup={toggleEditMeetup}
+    />
   {:else}
-    <Details id={pageData.id} on:close={closeDetails} />
+    <Details {id} on:close={closeDetails} />
   {/if}
 </main>
 

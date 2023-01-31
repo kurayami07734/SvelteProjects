@@ -1,17 +1,12 @@
 <script>
-  export let title;
-  export let subtitle;
-  export let address;
-  export let imageURL;
-  export let description;
-  export let contactEmail;
-  export let isFavorite;
   export let id;
   import Button from "../ui/button.svelte";
   import Badge from "../ui/badge.svelte";
   import { createEventDispatcher } from "svelte";
-  import { meetups } from "./meetups-store";
+  import { meetups } from "./meetups.store";
   const dispatch = createEventDispatcher();
+  const { title, subtitle, address, imageURL, description, isFavorite } =
+    $meetups.find((m) => m.id === id);
 </script>
 
 <article>
@@ -32,7 +27,9 @@
     <p>{description}</p>
   </div>
   <footer>
-    <Button href="mailto:{contactEmail}">Contact Email</Button>
+    <Button mode="outline" on:click={() => dispatch("edit-meetup", id)}>
+      Edit Meetup
+    </Button>
     <Button
       mode="outline"
       color={isFavorite ? "" : "success"}

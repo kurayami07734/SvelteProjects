@@ -1,19 +1,20 @@
 <script>
   // @ts-nocheck
-  import { meetups } from "./meetups-store";
+  import { meetups } from "./meetups.store";
   import TextInput from "../ui/textInput.svelte";
   import Button from "../ui/button.svelte";
   import { createEventDispatcher } from "svelte";
   import { isEmpty, isValidEmail } from "../shared/validation.js";
   import Modal from "../ui/modal.svelte";
   const dispatch = createEventDispatcher();
+  export let id = null;
   let meetup = {
     title: "",
     subtitle: "",
     imageURL: "",
     address: "",
     description: "",
-    email: "",
+    contactEmail: "",
   };
   let valid = {
     title: true,
@@ -21,24 +22,39 @@
     imageURL: true,
     address: true,
     description: true,
-    email: true,
+    contactEmail: true,
   };
   let isValidForm = false;
+  if (id) {
+    const fetchedMeetup = meetups.find(id);
+    meetup = {
+      title: fetchedMeetup.title,
+      subtitle: fetchedMeetup.subtitle,
+      imageURL: fetchedMeetup.imageURL,
+      address: fetchedMeetup.address,
+      description: fetchedMeetup.description,
+      contactEmail: fetchedMeetup.contactEmail,
+    };
+  }
   $: valid.title = !isEmpty(meetup.title);
   $: valid.subtitle = !isEmpty(meetup.subtitle);
   $: valid.imageURL = !isEmpty(meetup.imageURL);
   $: valid.address = !isEmpty(meetup.address);
   $: valid.description = !isEmpty(meetup.description);
-  $: valid.email = isValidEmail(meetup.email);
+  $: valid.contactEmail = isValidEmail(meetup.contactEmail);
   $: isValidForm =
     valid.title &&
     valid.subtitle &&
     valid.imageURL &&
     valid.address &&
     valid.description &&
-    valid.email;
+    valid.contactEmail;
   function submitForm() {
-    meetups.addMeetup(meetup);
+    if (id) {
+      meetups.updateMeetup(meetup);
+    } else {
+      meetups.addMeetup(meetup);
+    }
     dispatch("hide-modal");
   }
 
@@ -89,10 +105,10 @@
       id="email"
       labelText="Contact Email"
       inputType="email"
-      value={meetup.email}
-      valid={valid.email}
+      value={meetup.contactEmail}
+      valid={valid.contactEmail}
       validityMessage="Email is not valid"
-      on:input={(e) => (meetup.email = e.target.value)}
+      on:input={(e) => (meetup.contactEmail = e.target.value)}
     />
     <TextInput
       inputType="textarea"

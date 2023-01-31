@@ -1,7 +1,7 @@
-import { writable } from "svelte/store";
+import { writable, get } from "svelte/store";
 
 function createMeetups() {
-  const { subscribe, update } = writable([
+  const meetups = writable([
     {
       id: "m1",
       title: "Coding Bootcamp",
@@ -26,21 +26,40 @@ function createMeetups() {
     },
   ]);
   return {
-    subscribe: subscribe,
+    subscribe: meetups.subscribe,
     addMeetup: (meetupData) => {
       const meetup = {
         id: Math.random().toString(),
         isFavorite: false,
         ...meetupData,
       };
-      update((meetups) => [meetup, ...meetups]);
+      meetups.update((mtps) => [meetup, ...mtps]);
+    },
+    find: (id) => {
+      return get(meetups).find(mtp => mtp.id === id);
+    },
+    findIndex: (id) => {
+      return get(meetups).findIndex(mtp => mtp.id === id);
+    },
+    updateMeetup: (id, meetupData) => {
+      meetups.update((mtps) => {
+        const idx = mtps.findIndex((m) => m.id === id);
+        let updatedMeetup = {
+          isFavorite: mtps[idx].isFavorite,
+          id: mtps[idx].id,
+          ...meetupData,
+        };
+        let updatedMeetups = [...mtps];
+        updatedMeetups[idx] = updatedMeetup;
+        return updatedMeetups;
+      });
     },
     toggleFavorite: (id) => {
-      update((meetups) => {
-        let updatedMeetup = { ...meetups.find((m) => m.id === id) };
+      meetups.update((mtps) => {
+        let updatedMeetup = { ...mtps.find((m) => m.id === id) };
         updatedMeetup.isFavorite = !updatedMeetup.isFavorite;
-        const idx = meetups.findIndex((m) => m.id === id);
-        let updatedMeetups = [...meetups];
+        const idx = mtps.findIndex((m) => m.id === id);
+        let updatedMeetups = [...mtps];
         updatedMeetups[idx] = updatedMeetup;
         return updatedMeetups;
       });
