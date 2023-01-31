@@ -5,37 +5,39 @@
   import { createEventDispatcher } from "svelte";
   import { meetups } from "./meetups.store";
   const dispatch = createEventDispatcher();
-  const { title, subtitle, address, imageURL, description, isFavorite } =
-    $meetups.find((m) => m.id === id);
+  let meetup = $meetups.find((m) => m.id === id);
+  $: {
+    meetup = $meetups.find((m) => m.id === id);
+  }
 </script>
 
 <article>
   <header>
     <h1>
-      {title}
-      {#if isFavorite}
+      {meetup.title}
+      {#if meetup.isFavorite}
         <Badge>FAVORITE</Badge>
       {/if}
     </h1>
-    <h2>{subtitle}</h2>
-    <p>{address}</p>
+    <h2>{meetup.subtitle}</h2>
+    <p>{meetup.address}</p>
   </header>
   <div class="image">
-    <img src={imageURL} alt={title} />
+    <img src={meetup.imageURL} alt={meetup.title} />
   </div>
   <div class="content">
-    <p>{description}</p>
+    <p>{meetup.description}</p>
   </div>
   <footer>
     <Button mode="outline" on:click={() => dispatch("edit-meetup", id)}>
-      Edit Meetup
+      Edit
     </Button>
     <Button
       mode="outline"
-      color={isFavorite ? "" : "success"}
+      color={meetup.isFavorite ? "" : "success"}
       on:click={() => meetups.toggleFavorite(id)}
     >
-      {#if isFavorite}
+      {#if meetup.isFavorite}
         Unfavorite
       {:else}
         Favorite

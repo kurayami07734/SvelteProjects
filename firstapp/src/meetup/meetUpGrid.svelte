@@ -1,12 +1,12 @@
 <script>
   import { createEventDispatcher } from "svelte";
   import MeetupItem from "./meetupItem.svelte";
-  export let meetups;
+  import { meetups } from "./meetups.store";
   const dispatch = createEventDispatcher();
 </script>
 
 <section id="meetups">
-  {#each meetups as meetup}
+  {#each $meetups as meetup}
     <MeetupItem
       id={meetup.id}
       on:show-details={(e) => dispatch("show-details", e.detail)}

@@ -4,7 +4,7 @@
   const dispatch = createEventDispatcher();
   import { meetups } from "./meetups.store";
   export let id;
-  let meetup = meetups.find(id);
+  let meetup = $meetups.find(m => m.id === id);
 </script>
 
 <section>

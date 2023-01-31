@@ -9,9 +9,9 @@
   let page = "overview";
   let id = null;
   let showEditMeetup = false;
-  function toggleEditMeetup(event) {
+  function toggleEditMeetup(meetupID) {
     if (showEditMeetup === false) {
-      id = event.detail;
+      id = meetupID;
       showEditMeetup = true;
     } else {
       id = null;
@@ -36,16 +36,17 @@
       <EditMeetup on:hide-modal={toggleEditMeetup} {id} />
     {:else}
       <div class="meetup-control">
-        <Button on:click={toggleEditMeetup}>New meetup</Button>
+        <Button on:click={() => toggleEditMeetup()}>
+          New meetup
+        </Button>
       </div>
     {/if}
     {#if meetups.length === 0}
       <h1 class="empty">No meetups added yet</h1>
     {/if}
     <MeetUpGrid
-      meetups={$meetups}
       on:show-details={showDetails}
-      on:edit-meetup={toggleEditMeetup}
+      on:edit-meetup={(e) => toggleEditMeetup(e.detail)}
     />
   {:else}
     <Details {id} on:close={closeDetails} />

@@ -1,4 +1,4 @@
-import { writable, get } from "svelte/store";
+import { writable } from "svelte/store";
 
 function createMeetups() {
   const meetups = writable([
@@ -35,20 +35,10 @@ function createMeetups() {
       };
       meetups.update((mtps) => [meetup, ...mtps]);
     },
-    find: (id) => {
-      return get(meetups).find(mtp => mtp.id === id);
-    },
-    findIndex: (id) => {
-      return get(meetups).findIndex(mtp => mtp.id === id);
-    },
     updateMeetup: (id, meetupData) => {
       meetups.update((mtps) => {
         const idx = mtps.findIndex((m) => m.id === id);
-        let updatedMeetup = {
-          isFavorite: mtps[idx].isFavorite,
-          id: mtps[idx].id,
-          ...meetupData,
-        };
+        let updatedMeetup = { ...mtps[idx], ...meetupData };
         let updatedMeetups = [...mtps];
         updatedMeetups[idx] = updatedMeetup;
         return updatedMeetups;

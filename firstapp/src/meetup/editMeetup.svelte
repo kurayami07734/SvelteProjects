@@ -4,7 +4,7 @@
   import TextInput from "../ui/textInput.svelte";
   import Button from "../ui/button.svelte";
   import { createEventDispatcher } from "svelte";
-  import { isEmpty, isValidEmail } from "../shared/validation.js";
+  import { isValidFormData } from "../shared/validation.js";
   import Modal from "../ui/modal.svelte";
   const dispatch = createEventDispatcher();
   export let id = null;
@@ -26,7 +26,8 @@
   };
   let isValidForm = false;
   if (id) {
-    const fetchedMeetup = meetups.find(id);
+    console.log(id);
+    const fetchedMeetup = $meetups.find(m => m.id === id);
     meetup = {
       title: fetchedMeetup.title,
       subtitle: fetchedMeetup.subtitle,
@@ -36,22 +37,19 @@
       contactEmail: fetchedMeetup.contactEmail,
     };
   }
-  $: valid.title = !isEmpty(meetup.title);
-  $: valid.subtitle = !isEmpty(meetup.subtitle);
-  $: valid.imageURL = !isEmpty(meetup.imageURL);
-  $: valid.address = !isEmpty(meetup.address);
-  $: valid.description = !isEmpty(meetup.description);
-  $: valid.contactEmail = isValidEmail(meetup.contactEmail);
-  $: isValidForm =
-    valid.title &&
-    valid.subtitle &&
-    valid.imageURL &&
-    valid.address &&
-    valid.description &&
-    valid.contactEmail;
+  $: {
+    valid = isValidFormData(meetup);
+    isValidForm =
+      valid.title &&
+      valid.subtitle &&
+      valid.imageURL &&
+      valid.address &&
+      valid.description &&
+      valid.contactEmail;
+  }
   function submitForm() {
     if (id) {
-      meetups.updateMeetup(meetup);
+      meetups.updateMeetup(id, meetup);
     } else {
       meetups.addMeetup(meetup);
     }
