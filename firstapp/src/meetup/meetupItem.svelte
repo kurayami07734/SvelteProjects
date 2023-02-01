@@ -2,13 +2,14 @@
   export let id;
   import Button from "../ui/button.svelte";
   import Badge from "../ui/badge.svelte";
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, onDestroy } from "svelte";
   import { meetups } from "./meetups.store";
   const dispatch = createEventDispatcher();
-  let meetup = $meetups.find((m) => m.id === id);
-  $: {
-    meetup = $meetups.find((m) => m.id === id);
-  }
+  let meetup;
+  const unsub = meetups.subscribe((mtps) => {
+    meetup = mtps.find((m) => m.id === id);
+  });
+  onDestroy(unsub);
 </script>
 
 <article>
@@ -19,6 +20,7 @@
         <Badge>FAVORITE</Badge>
       {/if}
     </h1>
+    {meetup.id}
     <h2>{meetup.subtitle}</h2>
     <p>{meetup.address}</p>
   </header>
