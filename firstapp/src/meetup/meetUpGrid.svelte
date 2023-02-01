@@ -6,7 +6,7 @@
 </script>
 
 <section id="meetups">
-  {#each $meetups as meetup}
+  {#each $meetups as meetup (meetup.id)}
     <MeetupItem
       id={meetup.id}
       on:show-details={(e) => dispatch("show-details", e.detail)}
