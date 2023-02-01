@@ -44,6 +44,9 @@ function createMeetups() {
         return updatedMeetups;
       });
     },
+    removeMeetup: (id) => {
+      update((mtps) => mtps.filter((m) => m.id !== id));
+    },
     toggleFavorite: (id) => {
       update((mtps) => {
         let updatedMeetup = { ...mtps.find((m) => m.id === id) };

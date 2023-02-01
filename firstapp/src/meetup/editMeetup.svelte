@@ -3,6 +3,7 @@
   import { meetups } from "./meetups.store";
   import TextInput from "../ui/textInput.svelte";
   import Button from "../ui/button.svelte";
+  import { get } from "svelte/store";
   import { createEventDispatcher } from "svelte";
   import { isValidFormData } from "../shared/validation.js";
   import Modal from "../ui/modal.svelte";
@@ -26,8 +27,7 @@
   };
   let isValidForm = false;
   if (id) {
-    console.log(id);
-    const fetchedMeetup = $meetups.find(m => m.id === id);
+    const fetchedMeetup = get(meetups).find((m) => m.id === id);
     meetup = {
       title: fetchedMeetup.title,
       subtitle: fetchedMeetup.subtitle,
@@ -55,7 +55,10 @@
     }
     dispatch("hide-modal");
   }
-
+  function deleteMeetup() {
+    meetups.removeMeetup(id);
+    dispatch("hide-modal");
+  }
   function cancel() {
     dispatch("hide-modal");
   }
@@ -121,7 +124,10 @@
   </form>
   <div class="footer" slot="footer">
     <Button on:click={cancel}>Cancel</Button>
-    <Button on:click={submitForm} disabled={!isValidForm}>Save</Button>
+    <Button color="success" on:click={submitForm} disabled={!isValidForm}>Save</Button>
+    {#if id}
+      <Button on:click={deleteMeetup}>Delete</Button>
+    {/if}
   </div>
 </Modal>
 

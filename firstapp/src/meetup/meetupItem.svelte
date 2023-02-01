@@ -20,7 +20,6 @@
         <Badge>FAVORITE</Badge>
       {/if}
     </h1>
-    {meetup.id}
     <h2>{meetup.subtitle}</h2>
     <p>{meetup.address}</p>
   </header>

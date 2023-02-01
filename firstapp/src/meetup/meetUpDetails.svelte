@@ -3,8 +3,9 @@
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
   import { meetups } from "./meetups.store";
+  import { get } from "svelte/store";
   export let id;
-  let meetup = $meetups.find(m => m.id === id);
+  let meetup = get(meetups).find((m) => m.id === id);
 </script>
 
 <section>

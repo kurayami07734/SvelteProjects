@@ -2,7 +2,7 @@
   // @ts-nocheck
   import EditMeetup from "./meetup/editMeetup.svelte";
   import MeetUpGrid from "./meetup/meetUpGrid.svelte";
-  import Details from "./meetup/details.svelte";
+  import MeetUpDetails from "./meetup/meetUpDetails.svelte";
   import Button from "./ui/button.svelte";
   import Header from "./ui/header.svelte";
   import { meetups } from "./meetup/meetups.store";
@@ -34,12 +34,6 @@
   {#if page === "overview"}
     {#if showEditMeetup}
       <EditMeetup on:hide-modal={toggleEditMeetup} {id} />
-    {:else}
-      <div class="meetup-control">
-        <Button on:click={() => toggleEditMeetup()}>
-          New meetup
-        </Button>
-      </div>
     {/if}
     {#if meetups.length === 0}
       <h1 class="empty">No meetups added yet</h1>
@@ -49,16 +43,13 @@
       on:edit-meetup={(e) => toggleEditMeetup(e.detail)}
     />
   {:else}
-    <Details {id} on:close={closeDetails} />
+    <MeetUpDetails {id} on:close={closeDetails} />
   {/if}
 </main>
 
 <style>
   main {
     margin-top: 5rem;
-  }
-  .meetup-control {
-    margin: 1rem;
   }
   .empty {
     place-items: center;
