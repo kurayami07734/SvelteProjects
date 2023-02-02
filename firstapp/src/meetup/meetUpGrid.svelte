@@ -4,6 +4,8 @@
   import MeetupItem from "./meetupItem.svelte";
   import Button from "../ui/button.svelte";
   import { meetups } from "./meetups.store";
+  import { scale } from "svelte/transition";
+  import { flip } from "svelte/animate";
   const dispatch = createEventDispatcher();
   let favsOnly = false;
   function setFilter(e) {
@@ -17,13 +19,15 @@
 </section>
 <section id="meetups">
   {#each $meetups as meetup (meetup.id)}
-    {#if (favsOnly && meetup.isFavorite) || !favsOnly}
-      <MeetupItem
-        id={meetup.id}
-        on:show-details={(e) => dispatch("show-details", e.detail)}
-        on:edit-meetup={(e) => dispatch("edit-meetup", e.detail)}
-      />
-    {/if}
+    <div in:scale={{ duration: 200 }} animate:flip={{ duration: 200 }}>
+      {#if (favsOnly && meetup.isFavorite) || !favsOnly}
+        <MeetupItem
+          id={meetup.id}
+          on:show-details={(e) => dispatch("show-details", e.detail)}
+          on:edit-meetup={(e) => dispatch("edit-meetup", e.detail)}
+        />
+      {/if}
+    </div>
   {/each}
 </section>
 

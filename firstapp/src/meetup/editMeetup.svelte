@@ -27,14 +27,15 @@
   };
   let isValidForm = false;
   if (id) {
-    const fetchedMeetup = get(meetups).find((m) => m.id === id);
+    const { title, subtitle, imageURL, address, description, contactEmail } =
+      get(meetups).find((m) => m.id === id);
     meetup = {
-      title: fetchedMeetup.title,
-      subtitle: fetchedMeetup.subtitle,
-      imageURL: fetchedMeetup.imageURL,
-      address: fetchedMeetup.address,
-      description: fetchedMeetup.description,
-      contactEmail: fetchedMeetup.contactEmail,
+      title,
+      subtitle,
+      imageURL,
+      address,
+      description,
+      contactEmail,
     };
   }
   $: {
@@ -64,7 +65,7 @@
   }
 </script>
 
-<Modal title="New Meetup" on:cancel>
+<Modal title="New Meetup" on:cancel={cancel}>
   <form>
     <TextInput
       id="title"
@@ -124,7 +125,9 @@
   </form>
   <div class="footer" slot="footer">
     <Button on:click={cancel}>Cancel</Button>
-    <Button color="success" on:click={submitForm} disabled={!isValidForm}>Save</Button>
+    <Button color="success" on:click={submitForm} disabled={!isValidForm}
+      >Save</Button
+    >
     {#if id}
       <Button on:click={deleteMeetup}>Delete</Button>
     {/if}

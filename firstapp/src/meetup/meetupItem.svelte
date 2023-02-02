@@ -7,7 +7,7 @@
   const dispatch = createEventDispatcher();
   let meetup;
   const unsub = meetups.subscribe((mtps) => {
-    meetup = mtps.find((m) => m.id === id);
+    meetup = mtps.find((m) => m.id === id) ?? {};
   });
   onDestroy(unsub);
 </script>
