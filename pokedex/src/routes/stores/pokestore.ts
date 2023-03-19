@@ -1,9 +1,9 @@
 import { writable } from 'svelte/store';
-type PokeAPIObject = {
+export type PokeAPIObject = {
 	name: string;
 	url: string;
 };
-type Pokeman = {
+export type Pokeman = {
 	name: string;
 	id: number;
 	image: string;
@@ -17,8 +17,9 @@ async function fetchPokemon() {
 		return {
 			name: data.name,
 			id: index + 1,
-			image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/
-                    ${index + 1}.png`
+			image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
+				index + 1
+			}.png`
 		};
 	});
 	pokemon.set(loadedPokemon);
